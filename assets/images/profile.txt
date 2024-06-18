@@ -1,0 +1,80 @@
+import 'package:flutter/material.dart';
+
+
+class ProfilePage extends StatelessWidget {
+  const ProfilePage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white30,
+        centerTitle: true,
+        title: const Text('Profile'),
+      ),
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Stack(
+              clipBehavior: Clip.none,
+              alignment: Alignment.center,
+              children: [
+                Image.network(
+                  "https://wallpaperaccess.com/full/427852.jpg",
+                ),
+                const Positioned(
+                  bottom: -40,
+                  child: CircleAvatar(
+                    radius: 50,
+                    backgroundImage: AssetImage(
+                        'assets/images/profile.jpg'),
+
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 50,
+            ),
+            const Center(
+              child: Column(
+                children: [
+                  Text(
+                    "John Smith",
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                  ),
+                  Text(
+                    "Traveller",
+                    style: TextStyle(fontSize: 16),
+                  ),
+                ],
+              ),
+            ),
+
+            const SizedBox(height: 20),
+
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 15),
+              child: Text(
+                "About",
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+              ),
+            ),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 15),
+              child: Text(
+                "I'm John, a traveler who loves exploring new places and meeting "
+                    "people from all walks of life. From mountains to beaches, "
+                    "I'm always on the lookout for new adventures and experiences. "
+                    "Join me on my journey as I discover "
+                    "the beauty and diversity of our world, "
+                    "one destination at a time!",
+                style: TextStyle(fontSize: 17),
+              ),
+            )
+          ],
+        ));
+  }
+}
