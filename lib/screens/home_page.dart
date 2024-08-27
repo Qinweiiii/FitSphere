@@ -1,12 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:swe2109537_swe311_assm1/screens/about_page.dart';
-
+import 'package:swe2109537_swe311_assm1/login_page.dart';
+import 'package:swe2109537_swe311_assm1/screens/mood_page.dart';
 import 'package:swe2109537_swe311_assm1/screens/friend_page.dart';
 import 'package:swe2109537_swe311_assm1/screens/today_page.dart';
 import 'package:swe2109537_swe311_assm1/screens/sport_page.dart';
-import 'package:swe2109537_swe311_assm1/screens/about_page.dart';
 import 'package:swe2109537_swe311_assm1/screens/chat_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -24,8 +23,7 @@ class _HomePageState extends State<HomePage> {
     SportPage(),
     TodayPage(),
     FriendPage(),
-    AboutPage(),
-    ChatPage(),
+    MoodPage(),
   ];
 
   @override
@@ -116,9 +114,9 @@ class _HomePageState extends State<HomePage> {
                 items: const [
                   // bar里面要放的icon图案
                   BottomNavigationBarItem(icon: Icon(Icons.sports_cricket), label: "Sport"),
-                  BottomNavigationBarItem(icon: Icon(Icons.favorite),label: "Today"),
+                  BottomNavigationBarItem(icon: Icon(Icons.task_rounded),label: "Today"),
                   BottomNavigationBarItem(icon: Icon(Icons.people_alt), label: "Friend"),
-                  BottomNavigationBarItem(icon: Icon(Icons.person), label: "About"),
+                  BottomNavigationBarItem(icon: Icon(Icons.favorite),label: "Mood"),
                 ],
               //fixedColor: Colors.white,
             ),
@@ -126,9 +124,6 @@ class _HomePageState extends State<HomePage> {
         ),
         body: pages[myCurrentIndex],
       ),
-    );
-    return Scaffold(
-
     );
   }
 }

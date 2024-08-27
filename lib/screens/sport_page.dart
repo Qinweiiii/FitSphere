@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:swe2109537_swe311_assm1/models/exerciseVideo.dart';
 import 'package:flutter/services.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class SportPage extends StatefulWidget{
   const SportPage({super.key});
@@ -13,7 +12,7 @@ class SportPage extends StatefulWidget{
 }
 
 class _SportPageState extends State<SportPage>{
-  int selectedIndex = 1;
+  int selectedIndex = 0;
 
   List<ExerciseVideo> exerciseVideos = [];
   @override
@@ -87,11 +86,12 @@ class _SportPageState extends State<SportPage>{
                       ),
                     ],
                   ),
-                  child: GestureDetector(
-                    onTap: () => _launchURL('https://www.youtube.com/watch?v=LcxzO9FSLfQ'),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(20),
-                      child: Image.asset('assets/images/sport/pamela_endorphins.jpg', fit: BoxFit.cover,),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: YoutubePlayer(controller: YoutubePlayerController(
+                        initialVideoId: 'LcxzO9FSLfQ',
+                        flags: const YoutubePlayerFlags(autoPlay: false, mute: false)),
+                      //Image.asset('assets/images/sport/pamela_endorphins.jpg', fit: BoxFit.cover,),
                     ),
                   ),
                 ),
@@ -129,58 +129,7 @@ class _SportPageState extends State<SportPage>{
                   ),
                 ),
                 const SizedBox(height: 20),
-                Container(
-                  margin: EdgeInsets.only(left: 5, right: 10),
-                  width: 330,
-                  height: 180,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    shape: BoxShape.rectangle,
-                    borderRadius: BorderRadius.circular(20),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black26,
-                        offset: const Offset(3.0, 3.0),
-                        blurRadius: 2.0,
-                        spreadRadius: 1.0,
-                      ),
-                    ],
-                  ),
-                  child: GestureDetector(
-                    onTap: () => _launchURL(exerciseVideos[selectedIndex*2].link),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(20),
-                      child: Image.asset(exerciseVideos[selectedIndex*2].addr, fit: BoxFit.cover,),
-                    ),
-                  ),
-
-                ),
-                const SizedBox(height: 20),
-                Container(
-                  margin: EdgeInsets.only(left: 5, right: 10),
-                  width: 345,
-                  height: 180,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    shape: BoxShape.rectangle,
-                    borderRadius: BorderRadius.circular(20),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black26,
-                        offset: const Offset(3.0, 3.0),
-                        blurRadius: 2.0,
-                        spreadRadius: 1.0,
-                      ),
-                    ],
-                  ),
-                  child: GestureDetector(
-                    onTap: () => _launchURL(exerciseVideos[selectedIndex*2+1].link),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(20),
-                      child: Image.asset(exerciseVideos[selectedIndex*2+1].addr, fit: BoxFit.cover,),
-                    ),
-                  ),
-                ),
+                Box(selectedIndex, ValueKey(selectedIndex),),
               ],
             )
         )
@@ -221,12 +170,89 @@ class _SportPageState extends State<SportPage>{
       ),
     );
   }
+}
 
-  _launchURL(String _url) async {
-    final Uri url = Uri.parse(_url);
-    if (!await launchUrl(url)) {
-      throw Exception('Could not launch $url');
-    }
+class Box extends StatefulWidget {
+  final int selectedIndex;
+
+  Box(this.selectedIndex, Key key) : super(key: key);
+
+  @override
+  _BoxState createState() => _BoxState();
+}
+
+class _BoxState extends State<Box> {
+  List<ExerciseVideo> exerciseVideos = [];
+  @override
+  void initState() {
+    super.initState();
+    _getInitialInfo();
+    //SystemChrome.setEnabledSystemUIOverlays([]);
+  }
+  void _getInitialInfo(){
+    setState(() {
+      exerciseVideos = ExerciseVideo.getAllExerciseVideos();
+    });
   }
 
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          margin: EdgeInsets.only(left: 5, right: 10),
+          width: 330,
+          height: 180,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            shape: BoxShape.rectangle,
+            borderRadius: BorderRadius.circular(20),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black26,
+                offset: const Offset(3.0, 3.0),
+                blurRadius: 2.0,
+                spreadRadius: 1.0,
+              ),
+            ],
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(20),
+            child: YoutubePlayer(controller: YoutubePlayerController(
+                initialVideoId: exerciseVideos[widget.selectedIndex*2].videoId,
+                flags: const YoutubePlayerFlags(autoPlay: false, mute: false)),
+            ),
+          ),
+
+        ),
+        const SizedBox(height: 20),
+        Container(
+          margin: EdgeInsets.only(left: 5, right: 10),
+          width: 345,
+          height: 180,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            shape: BoxShape.rectangle,
+            borderRadius: BorderRadius.circular(20),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black26,
+                offset: const Offset(3.0, 3.0),
+                blurRadius: 2.0,
+                spreadRadius: 1.0,
+              ),
+            ],
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(20),
+            child: YoutubePlayer(controller: YoutubePlayerController(
+                initialVideoId: exerciseVideos[widget.selectedIndex*2+1].videoId,
+                flags: const YoutubePlayerFlags(autoPlay: false, mute: false)),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
 }

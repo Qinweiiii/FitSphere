@@ -1,51 +1,53 @@
 import 'package:flutter/material.dart';
 import 'package:swe2109537_swe311_assm1/models/msgModel.dart';
 import 'package:swe2109537_swe311_assm1/screens/friend_page.dart';
+import 'package:swe2109537_swe311_assm1/models/friendModel.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ChatPage extends StatefulWidget {
-
   const ChatPage({super.key});
 
   @override
   ChatPageState createState() => new ChatPageState();
-
 }
 
-class ChatPageState extends State<ChatPage>{
+class ChatPageState extends State<ChatPage> {
+  final TextEditingController _controller = TextEditingController();
 
   _buildMessage(Message message, bool isMe) {
     final Container msg = Container(
       margin: isMe
-        ? EdgeInsets.only(top: 15, bottom: 15, left: 100)
-        : EdgeInsets.only(top: 15, bottom: 15),
+          ? EdgeInsets.only(top: 15, bottom: 15, left: 100)
+          : EdgeInsets.only(top: 15, bottom: 15),
       padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
       width: MediaQuery.of(context).size.width * 0.75,
       decoration: BoxDecoration(
-        color: isMe ? Color(0xC988B8).withOpacity(0.55) : Color(0xFFA19FDD).withOpacity(0.55),
-        borderRadius: isMe
-          ? BorderRadius.only(topLeft: Radius.circular(25), bottomLeft: Radius.circular(25))
-          : BorderRadius.only(topRight: Radius.circular(25), bottomRight: Radius.circular(25))
-      ),
+          color: isMe
+              ? Color(0xC988B8).withOpacity(0.55)
+              : Color(0xFFA19FDD).withOpacity(0.55),
+          borderRadius: isMe
+              ? BorderRadius.only(
+              topLeft: Radius.circular(25), bottomLeft: Radius.circular(25))
+              : BorderRadius.only(topRight: Radius.circular(25), bottomRight: Radius.circular(25))),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-              message.time,
-              style: GoogleFonts.comicNeue(
-                fontSize: 18,
-                fontWeight: FontWeight.w900,
-                color: Colors.black,
-              )
+            message.time,
+            style: GoogleFonts.comicNeue(
+              fontSize: 18,
+              fontWeight: FontWeight.w900,
+              color: Colors.black,
+            ),
           ),
           const SizedBox(height: 5),
           Text(
-              message.text,
-              style: GoogleFonts.comicNeue(
-                fontSize: 16,
-                fontWeight: FontWeight.w900,
-                color: Colors.black,
-              ),
+            message.text,
+            style: GoogleFonts.comicNeue(
+              fontSize: 16,
+              fontWeight: FontWeight.w900,
+              color: Colors.black,
+            ),
           ),
         ],
       ),
@@ -61,13 +63,13 @@ class ChatPageState extends State<ChatPage>{
               ? Icon(Icons.favorite)
               : Icon(Icons.favorite_border),
           iconSize: 30.0,
-          color: message.isLiked
-            ? Colors.deepPurple
-            : Colors.blueGrey,
+          color: message.isLiked ? Colors.deepPurple : Colors.blueGrey,
           onPressed: () {
             setState(() {
-              if (message.isLiked == true) message.isLiked = false;
-              else message.isLiked = true;
+              if (message.isLiked == true)
+                message.isLiked = false;
+              else
+                message.isLiked = true;
             });
           },
         )
@@ -90,6 +92,7 @@ class ChatPageState extends State<ChatPage>{
           ),
           Expanded(
             child: TextField(
+              controller: _controller,
               decoration: InputDecoration(hintText: "Send a message..."),
             ),
           ),
@@ -97,11 +100,26 @@ class ChatPageState extends State<ChatPage>{
             icon: Icon(Icons.send),
             iconSize: 25.0,
             color: Theme.of(context).primaryColor,
-            onPressed: () {},
+            onPressed: _handleSendMessage,
           )
         ],
       ),
     );
+  }
+
+  void _handleSendMessage() {
+    final String text = _controller.text;
+    DateTime now = DateTime.now();
+    String _currentTime = "${now.hour.toString().padLeft(2, '0')}:${now.minute.toString().padLeft(2, '0')}";
+    if (text.isNotEmpty) {
+      setState(() {
+        messages.insert(
+          0,
+          Message(currentUser, _currentTime, text, false, true), // You might want to update the time dynamically.
+        );
+      });
+      _controller.clear();
+    }
   }
 
   @override
@@ -112,19 +130,19 @@ class ChatPageState extends State<ChatPage>{
         backgroundColor: Color(0xFFE8CBC0),
         centerTitle: false,
         title: Text(
-            "Ng Ju Peng",
-            style: GoogleFonts.breeSerif(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-              shadows: [
-                Shadow(
-                  blurRadius: 10.0,
-                  color: Colors.black,
-                  offset: Offset(2.0, 2.0),
-                )
-              ],
-            )
+          "Edward Lai",
+          style: GoogleFonts.breeSerif(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+            shadows: [
+              Shadow(
+                blurRadius: 10.0,
+                color: Colors.black,
+                offset: Offset(2.0, 2.0),
+              )
+            ],
+          ),
         ),
         elevation: 20.0,
         actions: <Widget>[
@@ -139,10 +157,9 @@ class ChatPageState extends State<ChatPage>{
       body: Container(
         decoration: BoxDecoration(
             gradient: LinearGradient(colors: [
-            Color(0xFFE8CBC0).withOpacity(0.85),
-            Color(0xFF636FA4).withOpacity(0.85),
-          ], begin: Alignment.topCenter, end: Alignment.bottomCenter)
-        ),
+              Color(0xFFE8CBC0).withOpacity(0.85),
+              Color(0xFF636FA4).withOpacity(0.85),
+            ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
         child: GestureDetector(
           onTap: () => FocusScope.of(context).unfocus(),
           child: Column(
@@ -152,20 +169,18 @@ class ChatPageState extends State<ChatPage>{
                   decoration: BoxDecoration(
                     color: Colors.white.withOpacity(0.5),
                     borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(0),
-                      topRight: Radius.circular(0)
-                    ),
+                        topLeft: Radius.circular(0),
+                        topRight: Radius.circular(0)),
                   ),
                   child: ClipRRect(
                     borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(30),
-                      topRight: Radius.circular(30)
-                    ),
+                        topLeft: Radius.circular(30),
+                        topRight: Radius.circular(30)),
                     child: ListView.builder(
                       reverse: true,
                       padding: EdgeInsets.only(top: 15),
                       itemCount: messages.length,
-                      itemBuilder: (BuildContext context, int index){
+                      itemBuilder: (BuildContext context, int index) {
                         final Message message = messages[index];
                         bool isMe = message.sender.id == currentUser.id;
                         return _buildMessage(message, isMe);
@@ -181,5 +196,4 @@ class ChatPageState extends State<ChatPage>{
       ),
     );
   }
-
 }

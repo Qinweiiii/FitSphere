@@ -1,4 +1,16 @@
-# FitSphere 健身星球
+# swe2109537_swe311_assm1
 
-Fitness is pursued by increasing people recently in terms of both exercise and healthy diets, while fit-lovers also enjoy building up themselves with their friends. Thus, FitSphere is developed fulfilling both professional and social requirements. <br/> 
-近年来人们越来越注重从运动和饮食两个方面追求健康，同时他们又很享受在朋友的陪伴下一起塑造更好的自己。于是，FitSphere应运而生，同时满足消费者对于专业性和社交性的需求。
+A new Flutter project.
+
+## Getting Started
+
+This project is a starting point for a Flutter application.
+
+A few resources to get you started if this is your first Flutter project:
+
+- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
+- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+
+For help getting started with Flutter development, view the
+[online documentation](https://docs.flutter.dev/), which offers tutorials,
+samples, guidance on mobile development, and a full API reference.

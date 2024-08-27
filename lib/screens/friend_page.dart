@@ -40,8 +40,8 @@ class _FriendPageState extends State<FriendPage>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.transparent,
-        body: SingleChildScrollView(
+      backgroundColor: Colors.transparent,
+      body: SingleChildScrollView(
           padding: EdgeInsets.only(left: 22, right: 20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
